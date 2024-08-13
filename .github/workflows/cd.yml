@@ -11,13 +11,27 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: gubu-service
+
+      - name: Decode SSH key
+        run: echo "${{ secrets.SERVER_PEMKEY }}" | base64 -d > /tmp/private_key.pem
+        shell: bash
+
+      - name: Set permissions for the SSH key
+        run: chmod 600 /tmp/private_key.pem
+        shell: bash
+
       - name: Deploy to Ubuntu
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_PEMKEY }}
+          key: /tmp/private_key.pem
           port: ${{ secrets.SERVER_SSH }}
           script: |
             # Load nvm and node environment
@@ -29,7 +43,7 @@ jobs:
             cd /home/ubuntu/8jo/cicd_test
 
             pm2 delete gubu-service || true
-
+            
             rm -rf dist/
 
             tar -xzf gubu-service.tar.gz
@@ -37,7 +51,9 @@ jobs:
             echo "${{ secrets.ENCODED_ENV }}" | base64 -d > .env
 
             npm ci --production
-
+            
             pm2 start dist/main.js --name gubu-service
 
             pm2 save
+            
+            rm gubu-service.tar.gz
