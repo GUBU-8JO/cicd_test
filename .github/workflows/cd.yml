@@ -31,7 +31,16 @@ jobs:
 
             git pull
 
-            echo "${{ secrets.SERVER_ENV }}" > .env
+            echo "${{ secrets.SERVER_ENV1 }}" > .env
+            echo "${{ secrets.SERVER_ENV2 }}" >> .env
+            echo "${{ secrets.SERVER_ENV3 }}" >> .env
+            echo "${{ secrets.SERVER_ENV4 }}" >> .env
+            echo "${{ secrets.SERVER_ENV5 }}" >> .env
+            echo "${{ secrets.SERVER_ENV6 }}" >> .env
+            echo "${{ secrets.SERVER_ENV7 }}" >> .env
+            echo "${{ secrets.SERVER_ENV8 }}" >> .env
+            echo "${{ secrets.SERVER_ENV9 }}" >> .env
+            echo "${{ secrets.SERVER_ENV10 }}" >> .env
 
             npm ci
 
