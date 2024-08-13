@@ -37,8 +37,6 @@ jobs:
 
             echo "${{ secrets.ENCODED_ENV }}" | base64 -d > .env
 
-            npm ci --production
-            
             pm2 start dist/main.js --name gubu-service
             
             rm gubu-service.tar.gz
