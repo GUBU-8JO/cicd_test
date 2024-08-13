@@ -48,7 +48,7 @@ jobs:
             npm ci --production
             
             pm2 start dist/main.js --name gubu-service
-
-            pm2 save
             
             rm gubu-service.tar.gz
+            
+            pm2 save
