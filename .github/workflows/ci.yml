@@ -31,6 +31,11 @@ jobs:
       - name: Archive build
         run: tar -czf gubu-service.tar.gz dist/
 
+      - name: Decode SSH key
+        run: echo "${{ secrets.SERVER_PEMKEY }}" | base64 -d > /tmp/private_key.pem
+        shell: bash
+
       - name: Copy build to deployment server
         run: |
-          scp -i ${{ secrets.SERVER_PEMKEY }} -P ${{ secrets.SERVER_SSH }} gubu-service.tar.gz ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/8jo/cicd_test/
+          scp -i /tmp/private_key.pem -o StrictHostKeyChecking=no -P ${{ secrets.SERVER_SSH }} gubu-service.tar.gz ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/8jo/cicd_test/
+        shell: bash
