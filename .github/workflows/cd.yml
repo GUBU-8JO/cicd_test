@@ -17,7 +17,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PEMKEY }}
-          port: ${{ secrets.SERVER_PORT }}
+          port: ${{ secrets.SERVER_SSH }}
           script: |
             # Load nvm and node environment
             export NVM_DIR="/home/ubuntu/.nvm"
