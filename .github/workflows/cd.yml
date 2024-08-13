@@ -50,5 +50,5 @@ jobs:
             pm2 start dist/main.js --name gubu-service
             
             rm gubu-service.tar.gz
-            
+
             pm2 save
