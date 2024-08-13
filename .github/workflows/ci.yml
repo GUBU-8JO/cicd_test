@@ -32,7 +32,7 @@ jobs:
         run: tar -czf gubu-service.tar.gz dist/
 
       - name: Decode SSH key
-        run: echo "${{ secrets.SERVER_PEMKEY }}" | base64 -d > /tmp/private_key.pem
+        run: echo "${{ secrets.SERVER_PEMKEY }}" > /tmp/private_key.pem
         shell: bash
 
       - name: Set permissions for the SSH key
