@@ -24,6 +24,13 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
       - name: Run Build
+        run: npm run build
+
+      - name: Archive build
+        run: tar -czf gubu-service.tar.gz dist/
+
+      - name: Copy build to deployment server
         run: |
-          npm run build
+          scp -i ${{ secrets.SERVER_PEMKEY }} -P ${{ secrets.SERVER_SSH }} gubu-service.tar.gz ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/8jo/cicd_test/
